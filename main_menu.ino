@@ -11,46 +11,23 @@ char *main_menu_texts[MAIN_MENU_ITEMS] = {
 
 int main_menu = NEW_RUN;
 
-void render_main_menu() {
+void main_menu_render() {
     render_ui("Metro timer", main_menu_texts, MAIN_MENU_ITEMS, main_menu);
-    /*
-    display.clearDisplay();
-    display.setTextSize(1);
-    display.setTextColor(WHITE);
-    display.setCursor(31, 0);
-    display.println("Metro timer");
-
-    for (int i = 0; i < MAIN_MENU_ITEMS; ++i) {
-        display.setCursor(15, 15 + 10 * i);
-        display.println(main_menu_texts[i]);
-    }
-
-    display.setCursor(5, 15 + 10 * main_menu);
-    display.print(">");
-
-    display.display();
-    */
 }
 
 void main_menu_action() {
-    if (encoderMoved) {
-        encoderMoved = false;
+    action(&main_menu, MAIN_MENU_ITEMS, &main_menu_render);
 
-        main_menu += encoderDirection;
-
-        if (main_menu < 0) main_menu = 0;
-        if (main_menu >= MAIN_MENU_ITEMS) main_menu = MAIN_MENU_ITEMS - 1;
-
-        render_main_menu();
-    }
-
-    if (buttonPressed) {
-        Serial.println("button");
-        buttonPressed = false;
-        if (main_menu = NEW_RUN) {
+    if (button_pressed_pull_up(BUTTON_ENC_PIN) or button_pressed_pull_down(BUTTON_OK_PIN)) {
+        Serial.println("button encoder");
+        if (main_menu == NEW_RUN) {
             current_menu = NEW_RUN_MENU;
         } else if (main_menu == VIEW_DATA) {
 
         }
+    }
+
+    if (button_pressed_pull_down(BUTTON_RETURN_PIN)) {
+        Serial.println("button return encoder");
     }
 }
